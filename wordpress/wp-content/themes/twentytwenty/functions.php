@@ -412,13 +412,14 @@ function twentytwenty_sidebar_registration() {
 			)
 		)
 	);
+
 	// Footer #3.
 	register_sidebar(
 		array_merge(
 			$shared_args,
 			array(
 				'name'        => __( 'Footer #3', 'twentytwenty' ),
-				'id'          => 'sidebar-3	',
+				'id'          => 'sidebar-3',
 				'description' => __( 'Widgets in this area will be displayed in the second column in the footer.', 'twentytwenty' ),
 			)
 		)
@@ -820,3 +821,8 @@ function twentytwenty_get_elements_array() {
 	 */
 	return apply_filters( 'twentytwenty_get_elements_array', $elements );
 }
+function load_font_awesome() {
+    wp_enqueue_style('font-awesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css');
+}
+add_action('wp_enqueue_scripts', 'load_font_awesome');
+

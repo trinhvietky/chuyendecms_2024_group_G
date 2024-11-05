@@ -3079,7 +3079,6 @@ function wp_footer() {
 	 * @since 1.5.1
 	 */
 	do_action( 'wp_footer' );
-	
 }
 
 /**

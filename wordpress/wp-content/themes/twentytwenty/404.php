@@ -25,6 +25,7 @@ get_header();
 			)
 		);
 		?>
+
 	</div><!-- .section-inner -->
 
 </main><!-- #site-content -->
