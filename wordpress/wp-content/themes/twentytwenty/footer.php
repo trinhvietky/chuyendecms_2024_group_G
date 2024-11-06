@@ -20,6 +20,84 @@ $categories = get_categories();
 // }
 
 ?>
+<style>
+/* Container chính của Latest News */
+.latest-news {
+    margin: 20px 0;
+}
+
+/* Tiêu đề Latest News */
+.latest-news h2 {
+    font-size: 18px;
+    margin-bottom: 15px;
+}
+
+/* Từng mục tin tức */
+.news-item {
+    margin-bottom: 20px;
+    padding-left: 20px;
+    position: relative;
+    padding-left: 20px;
+}
+
+/* Line dọc cho từng mục tin tức */
+.news-item::before {
+    content: '';
+    position: absolute;
+    left: 4px; /* Điều chỉnh vị trí line dọc sát với vòng tròn */
+    top: 15px; /* Bắt đầu line từ vị trí ngay dưới vòng tròn */
+    bottom: -15px; /* Kéo dài line xuống dưới mục tiếp theo */
+    width: 2px; /* Độ dày của line */
+    background-color: #3498db; /* Màu của line */
+    z-index: 0;
+}
+
+/* Vòng tròn xanh ở mỗi mục tin tức */
+.news-circle {
+    width: 10px;
+    height: 10px;
+    background-color: #3498db;
+    border-radius: 50%;
+    position: absolute;
+    left: -1px; /* Đặt vòng tròn sát với line */
+    top: 0;
+    z-index: 1; /* Đảm bảo vòng tròn nằm trên line dọc */
+}
+
+/* Tiêu đề tin tức */
+.news-title {
+    font-weight: bold;
+    color: #3498db;
+    text-decoration: none;
+}
+
+/* Mô tả tin tức */
+.news-description {
+    color: #666;
+}
+
+/* Ngày tháng */
+.news-date {
+    font-size: 12px;
+    color: #aaa;
+}
+</style>
+<div class="latest-news">
+    <h2>Latest News</h2>
+    <?php
+    $recent_posts = wp_get_recent_posts(array('numberposts' => 5));
+    foreach ($recent_posts as $post) : ?>
+        <div class="news-item">
+            <div class="news-circle"></div>
+            <div class="news-content">
+                <a href="<?php echo get_permalink($post['ID']); ?>" class="news-title"><?php echo $post['post_title']; ?></a>
+                <p class="news-description"><?php echo wp_trim_words($post['post_content'], 20, '...'); ?></p>
+            </div>
+            <span class="news-date"><?php echo get_the_date('j F, Y', $post['ID']); ?></span>
+        </div>
+    <?php endforeach; ?>
+</div>
+
 <footer id="site-footer" class="header-footer-group">
 
 	<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
