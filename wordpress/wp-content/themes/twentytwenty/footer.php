@@ -81,7 +81,88 @@ $categories = get_categories();
     font-size: 12px;
     color: #aaa;
 }
+.popular-posts-widget {
+    margin-top: 20px;
+    padding: 10px;
+}
+
+.popular-posts-widget h3 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 5px;
+}
+
+.popular-posts-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.popular-posts-list li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.post-number {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    width: 30px;
+    text-align: center;
+    margin-right: 10px;
+}
+
+.popular-posts-list a {
+    font-size: 16px;
+    color: #333;
+    text-decoration: none;
+    flex: 1;
+}
+
+.popular-posts-list a:hover {
+    text-decoration: underline;
+}
+
+.comment-count {
+    font-size: 14px;
+    color: #999;
+    margin-left: 10px;
+}
+
 </style>
+<div class="popular-posts-widget">
+    <h3>Xem nhiều</h3>
+    <ul class="popular-posts-list">
+        <?php
+        $popular_posts = new WP_Query(array(
+            'posts_per_page' => 8,
+            'meta_key' => 'post_views_count',
+            'orderby' => 'meta_value_num',
+            'order' => 'DESC',
+        ));
+        if ($popular_posts->have_posts()) :
+            $count = 1;
+            while ($popular_posts->have_posts()) : $popular_posts->the_post(); ?>
+                <li>
+                    <span class="post-number"><?php echo $count; ?></span>
+                    <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+                    <?php if (get_comments_number() > 0) : ?>
+                        <span class="comment-count"><?php echo get_comments_number(); ?></span>
+                    <?php endif; ?>
+                </li>
+            <?php $count++; endwhile;
+        else :
+            echo "<p>Không có bài viết phổ biến nào.</p>";
+        endif;
+        wp_reset_postdata();
+        ?>
+    </ul>
+</div>
+
+
 <div class="latest-news">
     <h2>Latest News</h2>
     <?php

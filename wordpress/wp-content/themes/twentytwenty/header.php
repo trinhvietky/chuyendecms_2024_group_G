@@ -86,7 +86,6 @@
 						<span class="toggle-text"><?php _e('Menu', 'twentytwenty'); ?></span>
 					</span>
 				</button><!-- .nav-toggle -->
-
 			</div><!-- .header-titles-wrapper -->
 
 			<div class="header-navigation-wrapper">
@@ -121,7 +120,6 @@
 								);
 							}
 							?>
-
 						</ul>
 
 					</nav><!-- .primary-menu-wrapper -->
