@@ -163,20 +163,40 @@ $categories = get_categories();
 </div>
 
 
-<div class="latest-news">
-    <h2>Latest News</h2>
-    <?php
-    $recent_posts = wp_get_recent_posts(array('numberposts' => 5));
-    foreach ($recent_posts as $post) : ?>
-        <div class="news-item">
-            <div class="news-circle"></div>
-            <div class="news-content">
-                <a href="<?php echo get_permalink($post['ID']); ?>" class="news-title"><?php echo $post['post_title']; ?></a>
-                <p class="news-description"><?php echo wp_trim_words($post['post_content'], 20, '...'); ?></p>
-            </div>
-            <span class="news-date"><?php echo get_the_date('j F, Y', $post['ID']); ?></span>
-        </div>
-    <?php endforeach; ?>
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
+<div class="container mt-5 mb-5">
+	<div class="row">
+		<div class="col-md-6 offset-md-3">
+			<h4>Latest News</h4>
+			<ul class="timeline">
+				<?php
+				$popular_posts = new WP_Query(array(
+				    'posts_per_page' => 8,
+				    'meta_key' => 'post_views_count',
+				    'orderby' => 'meta_value_num',
+				    'order' => 'DESC',
+				));
+				if ($popular_posts->have_posts()) :
+				    $count = 1;
+				    while ($popular_posts->have_posts()) : $popular_posts->the_post(); ?>
+				        <li>
+				            <a target="_blank" href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+				            <a href="#" class="float-right"><?php the_time('j F, Y'); ?></a>
+				            <p><?php echo wp_trim_words(get_the_content(), 20, '...'); ?></p>
+				        </li>
+				    <?php $count++; endwhile;
+				else :
+				    echo "<p>Không có bài viết phổ biến nào.</p>";
+				endif;
+				wp_reset_postdata();
+				?>
+			</ul>
+		</div>
+	</div>
 </div>
 
 <footer id="site-footer" class="header-footer-group">
