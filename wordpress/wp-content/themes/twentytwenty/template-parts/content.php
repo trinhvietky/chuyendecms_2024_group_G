@@ -43,7 +43,7 @@ if (is_single()) {
 	}
 
 	/* Bố cục chung cho phần ngày tháng, thêm khung tròn */
-	.post-date {
+	.post-dates {
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -69,7 +69,7 @@ if (is_single()) {
 	}
 
 	/* Bọc ngày và tháng lại trong một khối */
-	.post-date .day-month {
+	.post-dates .day-month {
 		display: inline-block;
 		font-size: 20px;
 		font-weight: bold;
@@ -79,7 +79,7 @@ if (is_single()) {
 	}
 
 	/* Phần ngày */
-	.post-date .day {
+	.post-dates .day {
 		display: block;
 		font-size: 18px;
 		/* Kích thước lớn hơn cho ngày */
@@ -92,7 +92,7 @@ if (is_single()) {
 	}
 
 	/* Phần tháng */
-	.post-date .month {
+	.post-dates .month {
 		display: block;
 		font-size: 15px;
 		/* Kích thước nhỏ hơn cho tháng */
@@ -101,7 +101,7 @@ if (is_single()) {
 	}
 
 	/* Phần năm */
-	.post-date .year {
+	.post-dates .year {
 		font-size: 15px;
 		/* Kích thước nhỏ hơn cho năm */
 		color: black;
@@ -184,7 +184,7 @@ if (is_single()) {
 
 	<?php if (is_single()) : ?>
 		<!-- Hiển thị ngày tháng cho bài viết đơn -->
-		<div class="post-date">
+		<div class="post-dates">
 			<div class="day-month">
 				<div class="day"><?php echo get_the_date('d'); ?></div>
 				<div class="month"><?php echo get_the_date('m'); ?></div> <!-- Thay đổi định dạng thành m/d/Y -->

@@ -9,52 +9,51 @@
  * @since Twenty Twenty 1.0
  */
 
+// Import Font Awesome (nếu chưa sử dụng Font Awesome trong theme)
+function add_font_awesome() {
+    wp_enqueue_style( 'font-awesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css' );
+}
+add_action( 'wp_enqueue_scripts', 'add_font_awesome' );
+
 $prev_text = sprintf(
-	'%s <span class="nav-prev-text">%s</span>',
-	'<span aria-hidden="true">&larr;</span>',
-	/*
-	 * Translators: This text contains HTML to allow the text to be shorter on small screens.
-	 * The text inside the span with the class nav-short will be hidden on small screens.
-	 */
-	__( 'Newer <span class="nav-short">Posts</span>', 'twentytwenty' )
+    '%s <span class="nav-prev-text">%s</span>',
+    '<i class="fas fa-arrow-left"></i>', // Sử dụng Font Awesome cho mũi tên trái
+    __( 'Newer <span class="nav-short">Posts</span>', 'twentytwenty' )
 );
+
 $next_text = sprintf(
-	'<span class="nav-next-text">%s</span> %s',
-	/*
-	 * Translators: This text contains HTML to allow the text to be shorter on small screens.
-	 * The text inside the span with the class nav-short will be hidden on small screens.
-	 */
-	__( 'Older <span class="nav-short">Posts</span>', 'twentytwenty' ),
-	'<span aria-hidden="true">&rarr;</span>'
+    '<span class="nav-next-text">%s</span> %s',
+    __( 'Older <span class="nav-short">Posts</span>', 'twentytwenty' ),
+    '<i class="fas fa-arrow-right"></i>' // Sử dụng Font Awesome cho mũi tên phải
 );
 
 $posts_pagination = get_the_posts_pagination(
-	array(
-		'mid_size'  => 1,
-		'prev_text' => $prev_text,
-		'next_text' => $next_text,
-	)
+    array(
+        'mid_size'  => 1,
+        'prev_text' => $prev_text,
+        'next_text' => $next_text,
+    )
 );
 
-// If we're not outputting the previous page link, prepend a placeholder with `visibility: hidden` to take its place.
+// Nếu không có link trang trước, thêm một placeholder với visibility: hidden để giữ vị trí.
 if ( false === strpos( $posts_pagination, 'prev page-numbers' ) ) {
-	$posts_pagination = str_replace( '<div class="nav-links">', '<div class="nav-links"><span class="prev page-numbers placeholder" aria-hidden="true">' . $prev_text . '</span>', $posts_pagination );
+    $posts_pagination = str_replace( '<div class="nav-links">', '<div class="nav-links"><span class="prev page-numbers placeholder" aria-hidden="true">' . $prev_text . '</span>', $posts_pagination );
 }
 
-// If we're not outputting the next page link, append a placeholder with `visibility: hidden` to take its place.
+// Nếu không có link trang tiếp theo, thêm một placeholder với visibility: hidden để giữ vị trí.
 if ( false === strpos( $posts_pagination, 'next page-numbers' ) ) {
-	$posts_pagination = str_replace( '</div>', '<span class="next page-numbers placeholder" aria-hidden="true">' . $next_text . '</span></div>', $posts_pagination );
+    $posts_pagination = str_replace( '</div>', '<span class="next page-numbers placeholder" aria-hidden="true">' . $next_text . '</span></div>', $posts_pagination );
 }
 
 if ( $posts_pagination ) { ?>
 
-	<div class="pagination-wrapper section-inner">
+    <div class="pagination-wrapper section-inner">
 
-		<hr class="styled-separator pagination-separator is-style-wide" aria-hidden="true" />
+        <!-- Bạn có thể xóa dòng separator này nếu không cần thiết -->
+        <hr class="styled-separator pagination-separator is-style-wide" aria-hidden="true" />
 
-		<?php echo $posts_pagination; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- already escaped during generation. ?>
+        <?php echo $posts_pagination; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- đã được escape trong quá trình tạo. ?>
 
-	</div><!-- .pagination-wrapper -->
+    </div><!-- .pagination-wrapper -->
 
-	<?php
-}
+<?php } ?>
