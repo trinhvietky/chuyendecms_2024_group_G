@@ -1,5 +1,3 @@
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
-
 <?php
 
 /**
@@ -20,111 +18,136 @@
 get_header();
 ?>
 
-
 <style>
-	/* Bố cục container của danh sách bài viết */
+	#site-content {
+		padding-top: 30px;
+	}
+
+	/* Bố cục ngày tháng */
 	.post-list {
-		display: flex;
-		flex-direction: column;
-		gap: 20px;
-		margin-left: 50px;
-		margin-right: 50px;
-		margin-bottom: 10px;
+
 		width: 50%;
 		margin: 0 auto;
-
 	}
 
-	/* Bố cục của từng bài viết */
 	.post-item {
 		display: flex;
-		/* border-bottom: 1px solid #ddd; */
-		padding-bottom: 10px;
-		margin: 10px;
-		/* background-color: antiquewhite; */
-		box-shadow: 5px 6px rgba(0, 0, 0, 0.1);
+		align-items: center;
+		padding: 16px;
+		margin-bottom: 24px;
+		background-color: #fff;
+		font-family: Arial, sans-serif;
+		/* border: .5px solid; */
+		box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5);
+		/* border-radius:; */
+
+	}
+	.post-image{
+		max-width: 100px;
+		height: auto;
 	}
 
-	/* Cột trái: Thời gian */
 	.post-date {
-		width: 20%;
+		width: 80px;
 		text-align: center;
-		font-weight: bold;
-		font-size: 18px;
-		color: #555;
-		display: flex;
-		flex-direction: column;
-		/* justify-content: center; */
-		border-right: 1px solid black;
-		/* padding-right: 10px; */
-
+		align-self: start;
+		margin-right: 16px;
+		color: #333;
+		/* border-right: 1px solid #ccc; */
+		padding-right: 16px;
+		padding-left: 16px;
 	}
 
 	.post-date .day {
-		font-size: 32px;
-		color: #0073aa;
+		font-size: 36px;
+		font-weight: bold;
 	}
 
 	.post-date .month {
-		font-size: 16px;
+		font-size: 12px;
 		text-transform: uppercase;
+		color: #777;
+		margin-top: -8px;
 	}
 
-	/* Cột phải: Tiêu đề và nội dung */
-	.post-info {
-		width: 80%;
-		/* padding-left: 15px; */
-		margin-left: 30px;
-
+	.post-content {
+		flex: 1;
+		border-left: 1px solid #ccc;
+		padding-left: 15px;
 	}
 
-	.post-title {
-		font-size: 22px;
-		margin: 0 0 5px;
+	.entry-title {
+		font-size: 20px;
+		font-weight: bold;
+		color: #0056b3;
+		margin-bottom: 8px;
 	}
 
-	.post-title a {
+	.entry-title a {
 		text-decoration: none;
-		color: #0073aa;
+		color: #0056b3;
 	}
 
-	.post-title a:hover {
+	.entry-title a:hover {
 		text-decoration: underline;
 	}
 
-	.post-excerpt {
-		font-size: 16px;
-		color: #555;
+	.entry-excerpt {
+		font-size: 14px;
+		color: #666;
 		margin: 0;
+		line-height: 1.6;
 	}
 
-	/* Responsive: Bố cục dọc trên thiết bị nhỏ */
 	@media (max-width: 768px) {
 		.post-item {
 			flex-direction: column;
+			align-items: flex-start;
 		}
 
 		.post-date {
-			width: 100%;
-			margin-bottom: 10px;
+			margin-bottom: 16px;
 		}
 
-		.post-info {
-			width: 100%;
+		.post-content {
+			border-left: none;
 			padding-left: 0;
 		}
+
+		.entry-title {
+			font-size: 18px;
+		}
+
+		.entry-excerpt {
+			font-size: 16px;
+		}
 	}
 
-	.form-control-borderless {
-		border: none;
+	.search-modal.active .search-modal-inner .search-active {
+		margin-bottom: 0;
+		width: 100%;
 	}
 
-	.form-control-borderless:hover,
-	.form-control-borderless:active,
-	.form-control-borderless:focus {
-		border: none;
+	.search-show {
+		margin-bottom: 8rem;
+		padding: 10px;
+
+	}
+
+	.search-form .search-input {
+		height: 50px;
+		border: #fff;
+	}
+	.search-form .search-input:focus {
 		outline: none;
-		box-shadow: none;
+		border: #fff;
+	}
+
+	.search-form .btn-search{
+		height: 50px;
+		background-color: green;
+		border-radius: 5px;
+		
 	}
 </style>
 
@@ -171,7 +194,7 @@ get_header();
 	if ($archive_title || $archive_subtitle) {
 	?>
 
-		<header class="archive-header has-text-align-center header-footer-group">
+		<header class="archive-header has-text-align-center header-footer-group m-0">
 
 			<div class="archive-header-inner section-inner medium">
 
@@ -206,31 +229,30 @@ get_header();
 			<div class="post-list">
 				<article id="post-<?php the_ID(); ?>" <?php post_class('post-item'); ?>>
 
-					<!-- <div class="post-image"><?php
-													if (has_post_thumbnail()) {
-														the_post_thumbnail('medium');
-													} else {
-														echo '<img src="' . get_template_directory_uri() . '/assets/images/default-thumbnail.jpg" alt="Default Thumbnail">';
-													}
-													?></div> -->
+					<div class="post-image"><?php
+											if (has_post_thumbnail()) {
+												the_post_thumbnail('medium');
+											} else {
+												echo '<img src="' . get_template_directory_uri() . '/assets/images/default-thumbnail.jpg" alt="Default Thumbnail">';
+											}
+											?></div>
 
 					<div class="post-date">
 						<div class="day"><?php echo get_the_date('d'); ?></div>
-						<div class="month"><?php echo 'THÁNG ' . get_the_date('m'); ?></div>
+						<div class="month"><?php echo mb_strtoupper('THÁNG ' . get_the_date('m')); ?></div>
 					</div>
 
-					<div class="post-info">
-						<h2 class="post-title">
-							<a href="<?php the_permalink(); ?>">
-								<?php the_title(); ?>
-							</a>
-						</h2>
-						<p class="post-excerpt">
+					<div class="post-content">
+						<header class="entry-header">
+							<h5 class="entry-title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h5>
+						</header><!-- .entry-header -->
+
+						<div class="entry-excerpt">
 							<?php
 							$excerpt = wp_strip_all_tags(get_the_excerpt());
 							echo mb_strimwidth($excerpt, 0, 100, ' [...]');
 							?>
-						</p>
+						</div><!-- .entry-excerpt -->
 					</div>
 				</article>
 			</div>
@@ -242,6 +264,7 @@ get_header();
 		}
 	} elseif (is_search()) {
 		?>
+
 		<div class="no-search-results-form section-inner thin">
 
 			<?php
@@ -257,7 +280,7 @@ get_header();
 	<?php
 	}
 	?>
-	
+
 	<?php get_template_part('template-parts/pagination'); ?>
 
 </main><!-- #site-content -->
