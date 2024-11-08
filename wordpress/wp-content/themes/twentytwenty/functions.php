@@ -883,6 +883,10 @@ function replace_comment_form($args)
 			</section>
     <!--- Post Form Ends -->';
 
+
+
+
+
 	// Thay thế hoàn toàn trường nhập liệu mặc định
 	$args['comment_field'] = $custom_html;
 	$args['submit_button'] = '';
