@@ -366,7 +366,6 @@ get_header(); ?>
                     <span class="post-number"><?php echo $count; ?></span>
                     <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
                     <?php if (get_comments_number() > 0) : ?>
-                        <span class="comment-count"><?php echo get_comments_number(); ?></span>
                     <?php endif; ?>
                 </li>
             <?php $count++; endwhile;
