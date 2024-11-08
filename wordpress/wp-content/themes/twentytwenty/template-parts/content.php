@@ -162,7 +162,9 @@ if (is_single()) {
 			font-size: 10px;
 		}
 
-
+		.featured-media img {
+			display: none;
+		}
 	}
 </style>
 

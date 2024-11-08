@@ -292,7 +292,9 @@ get_header(); ?>
         font-size: 0.9em;
     }
 }
-
+.responsive-article .attachment-medium{
+    display: none;
+}
 </style>
 
 <div class="responsive-article-container">
