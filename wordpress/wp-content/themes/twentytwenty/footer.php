@@ -131,6 +131,85 @@ $categories = get_categories();
     color: #999;
     margin-left: 10px;
 }
+.popular-posts-widget {
+    font-family: Arial, sans-serif;
+}
+
+.popular-posts-widget h3 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.popular-posts-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 10px; 
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.popular-posts-list li {
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+}
+
+.post-number {
+    font-size: 32px;
+    font-weight: bold;
+    margin-right: 10px;
+    color: #333;
+}
+
+.popular-posts-list a {
+    color: #0073aa;
+    text-decoration: none;
+}
+
+.popular-posts-list a:hover {
+    text-decoration: underline;
+}
+
+.comment-count {
+    font-size: 14px;
+    color: #666;
+    margin-left: 5px;
+}
+
+
+
+ul.timeline {
+    list-style-type: none;
+    position: relative;
+}
+ul.timeline:before {
+    content: ' ';
+    background: #d4d9df;
+    display: inline-block;
+    position: absolute;
+    left: 29px;
+    width: 2px;
+    height: 100%;
+    z-index: 400;
+}
+ul.timeline > li {
+    margin: 20px 0;
+    padding-left: 50px;
+}
+ul.timeline > li:before {
+    content: ' ';
+    background: white;
+    display: inline-block;
+    position: absolute;
+    border-radius: 50%;
+    border: 3px solid #22c0e8;
+    left: 20px;
+    width: 20px;
+    height: 20px;
+    z-index: 400;
+}
 
 </style>
 <div class="popular-posts-widget">
