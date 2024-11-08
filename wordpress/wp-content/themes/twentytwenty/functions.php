@@ -33,6 +33,29 @@
  *
  * @since Twenty Twenty 1.0
  */
+function set_post_views($postID) {
+    $count_key = 'post_views_count';
+    $count = get_post_meta($postID, $count_key, true);
+    if ($count == '') {
+        $count = 0;
+        delete_post_meta($postID, $count_key);
+        add_post_meta($postID, $count_key, '0');
+    } else {
+        $count++;
+        update_post_meta($postID, $count_key, $count);
+    }
+}
+
+function track_post_views($post_id) {
+    if (!is_single()) return;
+    if (empty($post_id)) {
+        global $post;
+        $post_id = $post->ID;
+    }
+    set_post_views($post_id);
+}
+add_action('wp_head', 'track_post_views');
+
 function twentytwenty_theme_support() {
 
 	// Add default posts and comments RSS feed links to head.
@@ -826,17 +849,45 @@ function load_font_awesome() {
 }
 add_action('wp_enqueue_scripts', 'load_font_awesome');
 
-function create_article_post_type() {
-    register_post_type('article',
-        array(
-            'labels' => array(
-                'name' => __('Articles'),
-                'singular_name' => __('Article')
-            ),
-            'public' => true,
-            'has_archive' => true,
-            'supports' => array('title', 'editor', 'thumbnail')
-        )
-    );
+function replace_comment_form($args)
+{
+	// HTML thay thế cho form bình luận
+	$custom_html = '
+    <!--- Post Form Begins -->
+    <section class="card" style="padding: 0;">
+				<div class="card-header">
+					<ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
+						<li class="nav-item">
+							<a class="nav-link active" id="posts-tab" data-toggle="tab" href="#posts" role="tab" aria-controls="posts" aria-selected="true">Make a Post</a>
+						</li>
+					</ul>
+				</div>
+				<div class="card-body">
+					<div class="tab-content" id="myTabContent">
+						<div class="tab-pane fade show active" id="posts" role="tabpanel" aria-labelledby="posts-tab">
+							<div class="form-group">
+								<label class="sr-only" for="comment">' . __('Bình luận') . '</label>
+								<textarea class="form-control" id="comment" name="comment" rows="3" placeholder="What are you thinking..." required></textarea>
+							</div>
+						</div>
+					</div>
+					<div class="text-right">
+						<!-- Lấy ID của bài viết hiện tại -->
+						<input type="hidden" name="comment_post_ID" value="' . get_the_ID() . '" id="comment_post_ID">
+						<input type="hidden" name="comment_parent" id="comment_parent" value="0">
+						<button type="submit" class="btn btn-submit btn-primary">Share</button>
+					</div>
+				</div>
+			</section>
+    <!--- Post Form Ends -->';
+
+
+
+
+
+	// Thay thế hoàn toàn trường nhập liệu mặc định
+	$args['comment_field'] = $custom_html;
+	$args['submit_button'] = '';
+	return $args;
 }
-add_action('init', 'create_article_post_type');
+add_filter('comment_form_defaults', 'replace_comment_form');
