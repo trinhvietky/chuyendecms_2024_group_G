@@ -82,6 +82,138 @@ $categories = get_categories();
     color: #aaa;
 }
 </style>
+
+<?php
+/* Template Name: Article Grid */
+get_header(); ?>
+
+<style>
+/* Container chính của bài viết */
+.responsive-article-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    margin: 20px auto;
+    max-width: 1200px;
+}
+
+/* Mỗi bài viết */
+.responsive-article {
+    width: 30%;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 400px; /* Set a fixed height for each article */
+}
+
+.responsive-article:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.responsive-article img {
+    width: 100%;
+    height: 200px; /* Fixed height for images */
+    object-fit: cover; /* Ensures the image doesn't distort and covers the container */
+}
+
+/* Tiêu đề */
+.responsive-article h3 {
+    font-size: 1.3em;
+    font-weight: bold;
+    color: #333;
+    margin: 10px 0;
+    padding: 0 10px;
+}
+
+/* Mô tả bài viết */
+.responsive-article p {
+    font-size: 1em;
+    color: #555;
+    padding: 0 15px 20px;
+    margin: 0;
+    flex-grow: 1; /* Makes sure the paragraph grows and fills space */
+}
+
+/* Responsive design adjustments */
+@media (max-width: 768px) {
+    .responsive-article {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .responsive-article h3 {
+        font-size: 1.1em;
+    }
+
+    .responsive-article p {
+        font-size: 0.9em;
+    }
+}
+
+</style>
+
+<div class="responsive-article-container">
+    <?php
+    $args = array(
+        'post_type' => 'post',
+        'posts_per_page' => 3
+    );
+    $query = new WP_Query($args);
+
+    if ($query->have_posts()) :
+        while ($query->have_posts()) : $query->the_post(); ?>
+            <div class="responsive-article">
+    <?php if (has_post_thumbnail()) : ?>
+        <a href="<?php the_permalink(); ?>">
+            <?php the_post_thumbnail('medium'); ?>
+        </a>
+    <?php endif; ?>
+    
+    <h3><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
+    
+    <div class="post-content">
+    <?php
+    // Get the post content
+    $content = get_the_content();
+    
+    // Use a regular expression to find the first image in the content
+    preg_match('/<img.+src=[\'"]([^\'"]+)[\'"].*>/i', $content, $image);
+
+    // Display the image if found
+    if (!empty($image[1])) {
+        echo '<img src="' . esc_url($image[1]) . '" alt="' . get_the_title() . '" class="inline-post-image">';
+    }
+
+    // Display the excerpt
+    echo wp_trim_words(get_the_excerpt(), 1500, '...');
+    ?>
+</div>
+
+</div>
+
+        <?php endwhile;
+    else :
+        echo '<p>No posts found.</p>';
+    endif;
+
+    wp_reset_postdata();
+    ?>
+</div>
+
+<?php get_footer(); ?>
+
+
 <div class="latest-news">
     <h2>Latest News</h2>
     <?php
