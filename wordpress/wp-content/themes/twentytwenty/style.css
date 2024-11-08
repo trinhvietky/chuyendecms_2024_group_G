@@ -342,7 +342,7 @@ main {
 }
 
 /* Chỉ hiển thị nội dung bình luận với khoảng cách thu hẹp */
-.wp-block-comment-content {
+.widget-content .wp-block-comment-content {
 	font-size: 20px !important;
 	color: #0073aa !important;
 	padding: 0 !important;
@@ -357,17 +357,17 @@ main {
 }
 
 /* Ẩn tất cả các thành phần không cần thiết */
-.wp-block-comment-author-name,
-.wp-block-comment-date,
-.wp-block-avatar,
-.wp-block-comment-reply-link,
-.wp-block-comment-edit-link,
-.wp-block-columns>.wp-block-column:first-child {
+.widget-content .wp-block-comment-author-name,
+.widget-content .wp-block-comment-date,
+.widget-content .wp-block-avatar,
+.widget-content .wp-block-comment-reply-link,
+.widget-content .wp-block-comment-edit-link,
+.widget-content .wp-block-columns>.wp-block-column:first-child {
 	display: none !important;
 }
 
 /* Loại bỏ nền và viền không cần thiết */
-.wp-block-comments {
+.widget-content .wp-block-comments {
 	background: none !important;
 	border: none !important;
 	box-shadow: none !important;
@@ -378,7 +378,7 @@ main {
 }
 
 /* Đảm bảo không có viền hoặc khoảng cách không mong muốn từ các phần tử con */
-.comment * {
+.widget-content .comment * {
 	background: none !important;
 	box-shadow: none !important;
 	padding: 0 !important;
@@ -387,7 +387,7 @@ main {
 	/* Áp dụng cho các thành phần con để thu hẹp hơn */
 }
 
-.wp-block-comments {
+.widget-content .wp-block-comments {
 	margin: 0 auto !important;
 }
 
